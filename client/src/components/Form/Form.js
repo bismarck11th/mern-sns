@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { TextField, Button, Typography, Paper } from '@material-ui/core';
 import FileBase from 'react-file-base64';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
 
-import useStyles from './styles.js';
 import { createPost, updatePost } from '../../actions/posts.js';
+import useStyles from './styles.js';
 
 const Form = ({ currentId, setCurrentId }) => {
+  const history = useHistory();
+  const dispatch = useDispatch();
   const classes = useStyles();
   const post = useSelector((state) =>
-    currentId ? state.posts.find((post) => post._id === currentId) : null
+    currentId ? state.posts.posts.find((post) => post._id === currentId) : null
   );
-  const dispatch = useDispatch();
   const [postData, setPostData] = useState({
     title: '',
     message: '',
@@ -33,7 +34,7 @@ const Form = ({ currentId, setCurrentId }) => {
         updatePost(currentId, { ...postData, name: user?.result?.name })
       );
     } else {
-      dispatch(createPost({ ...postData, name: user?.result?.name }));
+      dispatch(createPost({ ...postData, name: user?.result?.name }, history));
     }
     clear();
   };
