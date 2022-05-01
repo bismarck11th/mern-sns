@@ -27,7 +27,6 @@ const initialState = {
 };
 
 const Auth = () => {
-  console.log(process.env.REACT_APP_GOOGLE_CLIENT_ID);
   const classes = useStyles();
   const [showPassword, setShowPassword] = useState(false);
   const [isSignup, setIsSignup] = useState(false);
